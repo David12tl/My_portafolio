@@ -1,249 +1,273 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Mi Portafolio</title>
-  <meta name="description" content="Portafolio de proyectos de David Valdez Lopez.">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portafolio — David Valdez López</title>
+  <meta name="description" content="Portafolio de proyectos de David Valdez López." />
 
+  <!-- Fuente -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN + config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
+          colors: {
+            base: '#0b0b10',
+            ink: '#e5e7eb',
+            primary: '#a855f7',    // violeta
+            accent: '#22d3ee',     // cyan
+          },
+          dropShadow: {
+            glow: ['0 0 25px rgba(168,85,247,.35)','0 0 50px rgba(34,211,238,.25)']
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #0d0d0d;
-      color: #e0e0e0;
+    /* Suave degradado radial al fondo */
+    .bg-radial {
+      background:
+        radial-gradient(1200px 600px at 75% -10%, rgba(168,85,247,.25), transparent 60%),
+        radial-gradient(900px 500px at 10% -20%, rgba(34,211,238,.18), transparent 55%),
+        radial-gradient(600px 400px at 50% 100%, rgba(168,85,247,.12), transparent 60%),
+        #0b0b10;
     }
-
-    .hero-section {
-      background: linear-gradient(135deg, #1a1a2e, #0f0a1c);
-      color: #fff;
-      padding: 120px 0;
-      text-align: center;
+    /* Vidrio / glass */
+    .glass {
+      @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-[0_8px_40px_rgba(0,0,0,.35)];
     }
-
-    .hero-title {
-      font-weight: 800;
-      font-size: 3.5rem;
-      color: #c9e740;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    .pill {
+      @apply rounded-full px-4 py-2 glass text-sm leading-none;
     }
-
-    .hero-section p {
-      font-size: 1.25rem;
-      color: #ccc;
+    .chip {
+      @apply rounded-full px-3 py-1.5 text-sm bg-white/5 border border-white/10;
     }
-
-    .btn-success {
-      background-color: #c9e740;
-      color: #1a1a1a;
-      border: none;
+    .btn-gradient {
+      background: linear-gradient(90deg, #a855f7, #22d3ee);
     }
-
-    .btn-success:hover {
-      background-color: #b5d637;
-      color: #000;
-    }
-
-    .card-project {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border-radius: 12px;
-      overflow: hidden;
-      height: 100%;
-    }
-
-    .card-project:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.3);
-    }
-
-    .card-project img {
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .card-project .card-body {
-      padding: 1.25rem;
-    }
-
-    .card-project .card-title {
-      font-weight: 600;
-      font-size: 1.2rem;
-    }
-
-    #acerca-de {
-      background-color: #121212;
-    }
-
-    #acerca-de .lead {
-      max-width: 800px;
-      margin: 0 auto;
-      color: #aaa;
-    }
-
-    #acerca-de .badge {
-      font-size: 1rem;
-      padding: 0.6em 1em;
-    }
-
-    #contacto {
-      background-color: #0a0a0a;
-    }
-
-    #contacto .lead {
-      color: #bbb;
-    }
-
-    footer {
-      font-size: 0.9rem;
-      border-top: 1px solid #333;
-    }
+    .btn-gradient:hover { filter: brightness(1.05); }
   </style>
 </head>
-<body data-bs-theme="dark">
-  <body data-bs-theme="dark"> 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="#"> &lt;/&gt; David Valdez Lopez</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#inicio">Inicio</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#acerca-de">Acerca de mí</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#proyectos">Proyectos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#contacto">Contacto</a>
-          </li>
-        </ul>
+
+<body class="bg-radial text-ink">
+  <!-- NAV -->
+  <header class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-black/40">
+    <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+      <a class="flex items-center gap-2 font-semibold tracking-tight" href="#">
+        <span class="h-3 w-3 rounded-sm bg-primary shadow-[0_0_12px_rgba(168,85,247,.9)]"></span>
+        <span>&lt;/&gt; David Valdez López</span>
+      </a>
+
+      <!-- Pastilla de navegación -->
+      <div class="hidden md:flex gap-2 glass rounded-full p-1">
+        <a href="#home" class="pill bg-white/10">Home</a>
+        <a href="#work" class="pill">Work</a>
+        <a href="#about" class="pill">About</a>
       </div>
-    </div>
-  </nav>
 
-  <main>
-    <section id="inicio" class="hero-section">
-      <div class="container py-5">
-        <h1 class="display-3 hero-title">¡Hola, soy David Valdez Lopez</h1>
-        <p class="lead">Desarrollador enfocado en la creación de soluciones web elegantes y funcionales.</p>
-        <hr class="my-4 border-light"> 
-        <p>Explora mis proyectos y descubre cómo convierto ideas en código.</p>
-        <a class="btn btn-success btn-lg mt-3" href="#proyectos" role="button">Ver Proyectos Destacados</a>
+      <!-- Social (dummy) -->
+      <div class="hidden sm:flex items-center gap-3 text-white/70">
+        <a class="chip hover:bg-white/10" href="#contacto">✉️</a>
+        <a class="chip hover:bg-white/10" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="chip hover:bg-white/10" href="https://twitter.com/" target="_blank" rel="noreferrer">Twitter</a>
       </div>
-    </section>
+    </nav>
+  </header>
 
-    <section id="proyectos" class="py-5 bg-black">
-      <div class="container">
-        <h2 class="text-center mb-5 text-success">Proyectos Recientes</h2>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+  <main id="home" class="relative overflow-hidden">
+    <!-- HERO -->
+    <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-24">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <p class="inline-flex items-center gap-2 chip mb-6">
+            <span class="h-2 w-2 rounded-full bg-accent"></span> Disponible para proyectos
+          </p>
 
-          <div class="col">
-            <div class="card card-project bg-dark border-secondary">
-              <img src="img/BeelGo.png" class="card-img-top" alt="Captura de BeelGo">
-              <div class="card-body">
-                <h5 class="card-title text-success">BeelGo (Buscador Web)</h5>
-                <p class="card-text">Clon de motor de búsqueda para prácticas. Tecnologías: HTML, CSS y JavaScript.</p>
-                <a href="#" class="btn btn-outline-success btn-sm">Ver Proyecto</a>
-              </div>
-            </div>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight drop-shadow-glow">
+            Hola, mi nombre es <br><span class="text-white">David Valdez López</span>
+          </h1>
+
+          <p class="mt-6 text-white/70 text-lg max-w-xl">
+            Soy un <span class="text-white">Creative Developer</span> con base en México. Diseño y construyo
+            experiencias web modernas, accesibles y con intención.
+          </p>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            <span class="chip">💻 Developer</span>
+            <span class="chip">🎤 Speaker</span>
+            <span class="chip">✍️ Writer</span>
           </div>
 
-          <div class="col">
-            <div class="card card-project bg-dark border-secondary">
-              <img src="img/BeelPedia.png" class="card-img-top" alt="Captura de BeelPedia">
-              <div class="card-body">
-                <h5 class="card-title text-success">BeelPedia (Enciclopedia)</h5>
-                <p class="card-text">Plataforma de contenido tipo wiki. Enfoque en diseño responsivo con Bootstrap.</p>
-                <a href="#" class="btn btn-outline-success btn-sm">Ver Proyecto</a>
-              </div>
-            </div>
+          <div class="mt-10 flex items-center gap-4">
+            <a href="#work" class="btn-gradient text-black font-semibold rounded-full px-5 py-3 shadow-lg">
+              Ver trabajo seleccionado →
+            </a>
+            <a href="#contacto" class="chip">Envíame un mensaje</a>
           </div>
+        </div>
 
-          <div class="col">
-            <div class="card card-project bg-dark border-secondary">
-              <img src="img/ISC.png" class="card-img-top" alt="Captura de ISC">
-              <div class="card-body">
-                <h5 class="card-title text-success">ISC (Landing Page)</h5>
-                <p class="card-text">Página de inicio para un servicio, enfocada en la conversión.</p>
-                <a href="#" class="btn btn-outline-success btn-sm">Ver Proyecto</a>
-              </div>
-            </div>
+        <!-- Foto -->
+        <div class="justify-self-center lg:justify-self-end">
+          <div class="relative rounded-[2rem] overflow-hidden glass p-2">
+            <img
+              class="rounded-[1.6rem] object-cover w-[520px] h-[520px] max-w-full"
+              src="img/perfil.jpg"
+              alt="Foto de David"
+              onerror="this.src='https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=800&auto=format&fit=crop'"
+            />
           </div>
+        </div>
+      </div>
 
-          <div class="col">
-            <div class="card card-project bg-dark border-secondary">
-              <img src="img/Marketplace.png" class="card-img-top" alt="Captura de Marketplace">
-              <div class="card-body">
-                <h5 class="card-title text-success">Marketplace (E-commerce)</h5>
-                <p class="card-text">Tienda en línea con carrito de compras y diseño responsivo.</p>
-                <a href="#" class="btn btn-outline-success btn-sm">Ver Proyecto</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="card card-project bg-dark border-secondary">
-              <img src="img/Reproductor.png" class="card-img-top" alt="Captura de Reproductor">
-              <div class="card-body">
-                <h5 class="card-title text-success">Reproductor de Música</h5>
-                <p class="card-text">Interfaz moderna para reproducir audio con controles personalizados.</p>
-                <a href="#" class="btn btn-outline-success btn-sm">Ver Proyecto</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="card card-project bg-dark border-secondary">
-              <img src="img/SportAcademy.png" class="card-img-top" alt="Captura de SportAcademy">
-              <div class="card-body">
-                <h5 class="card-title text-success">SportAcademy (Plataforma Educativa)</h5>
-                <p class="card-text">Sistema web para academias deportivas con formularios animados y base de datos.</p>
-                <a href="#" class="btn btn-outline-success btn-sm">Ver Proyecto</a>
-              </div>
-            </div>
-          </div>
-
+      <!-- 3 bullets -->
+      <div class="mt-16 grid md:grid-cols-3 gap-6">
+        <div class="glass rounded-2xl p-6">
+          <div class="text-primary text-2xl mb-3">🧩</div>
+          <h3 class="text-xl font-bold mb-2">Full Stack</h3>
+          <p class="text-white/70">De la idea al despliegue: UI, APIs y base de datos con buenas prácticas.</p>
+        </div>
+        <div class="glass rounded-2xl p-6">
+          <div class="text-primary text-2xl mb-3">🏆</div>
+          <h3 class="text-xl font-bold mb-2">Industry-Minded</h3>
+          <p class="text-white/70">Experimentos medibles, performance y accesibilidad como requisitos.</p>
+        </div>
+        <div class="glass rounded-2xl p-6">
+          <div class="text-primary text-2xl mb-3">🧠</div>
+          <h3 class="text-xl font-bold mb-2">Strategy-Minded</h3>
+          <p class="text-white/70">Diseño orientado a objetivos de negocio y contenido.</p>
         </div>
       </div>
     </section>
 
-    <section id="acerca-de" class="py-5 bg-dark">
-      <div class="container text-center">
-        <h2 class="mb-4 text-white">Acerca de Mí </h2>
-        <p class="lead text-muted">Soy un desarrollador apasionado por crear experiencias digitales modernas, accesibles y funcionales. Me especializo en frontend con Bootstrap y backend con PHP y SQL, integrando diseño y lógica con precisión.</p>
-        <span class="badge text-bg-success me-2">PHP</span>
-        <span class="badge text-bg-success me-2">JavaScript</span>
-        <span class="badge text-bg-success me-2">Bootstrap 5</span>
-        <span class="badge text-bg-success me-2">SQL</span>
-        <span class="badge text-bg-success">Arduino</span>
+    <!-- SELECTED WORK -->
+    <section id="work" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+      <div class="flex items-end justify-between">
+        <div>
+          <h2 class="text-4xl font-extrabold">Selected Work</h2>
+          <p class="text-white/60 mt-2 max-w-2xl">Algunos proyectos destacados de los últimos años.</p>
+        </div>
+        <a href="#work" class="hidden md:inline-flex items-center gap-2 btn-gradient rounded-full px-5 py-3 font-semibold text-black shadow-lg">
+          Ver todo <span>→</span>
+        </a>
+      </div>
+
+      <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Card -->
+        <article class="group glass rounded-2xl overflow-hidden">
+          <div class="h-44 bg-gradient-to-tr from-primary/40 to-accent/40">
+            <img src="img/BeelGo.png" alt="BeelGo" class="h-full w-full object-cover mix-blend-screen" />
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">BeelGo (Buscador Web)</h3>
+            <p class="text-white/70 mt-2">Clon de motor de búsqueda para prácticas. HTML, CSS y JS.</p>
+            <a href="#" class="mt-4 inline-block chip group-hover:bg-white/10">Ver Proyecto</a>
+          </div>
+        </article>
+
+        <article class="group glass rounded-2xl overflow-hidden">
+          <div class="h-44 bg-gradient-to-tr from-primary/40 to-accent/40">
+            <img src="img/BeelPedia.png" alt="BeelPedia" class="h-full w-full object-cover mix-blend-screen" />
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">BeelPedia (Enciclopedia)</h3>
+            <p class="text-white/70 mt-2">Plataforma tipo wiki con diseño responsivo.</p>
+            <a href="#" class="mt-4 inline-block chip">Ver Proyecto</a>
+          </div>
+        </article>
+
+        <article class="group glass rounded-2xl overflow-hidden">
+          <div class="h-44 bg-gradient-to-tr from-primary/40 to-accent/40">
+            <img src="img/ISC.png" alt="ISC Landing" class="h-full w-full object-cover mix-blend-screen" />
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">ISC (Landing Page)</h3>
+            <p class="text-white/70 mt-2">Página de inicio enfocada en conversión.</p>
+            <a href="#" class="mt-4 inline-block chip">Ver Proyecto</a>
+          </div>
+        </article>
+
+        <article class="group glass rounded-2xl overflow-hidden">
+          <div class="h-44 bg-gradient-to-tr from-primary/40 to-accent/40">
+            <img src="img/Marketplace.png" alt="Marketplace" class="h-full w-full object-cover mix-blend-screen" />
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">Marketplace (E-commerce)</h3>
+            <p class="text-white/70 mt-2">Carrito, filtros y diseño responsive.</p>
+            <a href="#" class="mt-4 inline-block chip">Ver Proyecto</a>
+          </div>
+        </article>
+
+        <article class="group glass rounded-2xl overflow-hidden">
+          <div class="h-44 bg-gradient-to-tr from-primary/40 to-accent/40">
+            <img src="img/Reproductor.png" alt="Reproductor" class="h-full w-full object-cover mix-blend-screen" />
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">Reproductor de Música</h3>
+            <p class="text-white/70 mt-2">UI moderna con controles personalizados.</p>
+            <a href="#" class="mt-4 inline-block chip">Ver Proyecto</a>
+          </div>
+        </article>
+
+        <article class="group glass rounded-2xl overflow-hidden">
+          <div class="h-44 bg-gradient-to-tr from-primary/40 to-accent/40">
+            <img src="img/SportAcademy.png" alt="SportAcademy" class="h-full w-full object-cover mix-blend-screen" />
+          </div>
+          <div class="p-5">
+            <h3 class="font-semibold text-lg">SportAcademy (Plataforma)</h3>
+            <p class="text-white/70 mt-2">Sistema web para academias deportivas.</p>
+            <a href="#" class="mt-4 inline-block chip">Ver Proyecto</a>
+          </div>
+        </article>
       </div>
     </section>
 
-    <section id="contacto" class="py-5 bg-black">
-      <div class="container text-center">
-        <h2 class="mb-4 text-success">Hablemos</h2>
-        <p class="lead text-muted">¿Tienes un proyecto en mente? ¡Contáctame!</p>
-        <!-- Aquí podrías agregar un formulario más adelante -->
+    <!-- MENTIONS -->
+    <section id="about" class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-20">
+      <h2 class="text-center text-4xl font-extrabold">Mentions</h2>
+      <p class="text-center text-white/60 mt-3 max-w-2xl mx-auto">
+        He tenido la fortuna de recibir menciones por mi trabajo en distintas publicaciones.
+      </p>
+
+      <div class="mt-10 grid sm:grid-cols-3 gap-5 place-items-center">
+        <div class="w-full glass rounded-2xl px-8 py-6 text-center">Medium</div>
+        <div class="w-full glass rounded-2xl px-8 py-6 text-center">BuzzFeed</div>
+        <div class="w-full glass rounded-2xl px-8 py-6 text-center">The Next Web</div>
+        <div class="w-full glass rounded-2xl px-8 py-6 text-center sm:col-start-2">awwwards.</div>
+        <div class="w-full glass rounded-2xl px-8 py-6 text-center">TechCrunch</div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="contacto" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      <div class="glass rounded-3xl p-8 sm:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+        <div>
+          <h3 class="text-3xl font-extrabold">¿Interesado en trabajar juntos?</h3>
+          <p class="text-white/70 mt-2">Hablemos de tu idea y cómo llevarla a producción.</p>
+        </div>
+        <a href="mailto:tu.correo@ejemplo.com" class="btn-gradient rounded-full px-6 py-3 font-semibold text-black shadow-lg">
+          Envíame un mensaje ✈️
+        </a>
       </div>
     </section>
   </main>
 
-  <footer class="bg-dark text-center text-white py-3">
-    <div class="container">
-      <div class="text-center">
-        © 2025 Mi Portafolio | Hecho con Bootstrap
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10 py-8 text-sm text-white/60">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p>Diseñado & Desarrollado con Tailwind • © 2025 David Valdez López</p>
+      <div class="flex items-center gap-5">
+        <a class="hover:text-white" href="https://twitter.com/" target="_blank" rel="noreferrer">Twitter</a>
+        <a class="hover:text-white" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="hover:text-white" href="https://codepen.io/" target="_blank" rel="noreferrer">CodePen</a>
       </div>
     </div>
   </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
 </body>
 </html>
