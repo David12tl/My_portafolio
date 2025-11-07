@@ -6,10 +6,20 @@
   <title>Portafolio — David Valdez López</title>
   <meta name="description" content="Portafolio de proyectos de David Valdez López." />
 
-  <!-- Fuente -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
 
-  <!-- Tailwind CDN + config -->
+  <!-- Pre-carga del tema -->
+  <script>
+    (function () {
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -19,105 +29,186 @@
           fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
           colors: {
             base: '#0b0b10',
-            ink: '#e5e7eb',
-            primary: '#a855f7',    // violeta
-            accent: '#22d3ee',     // cyan
+            ink: '#f6f7fb',
+            primary: '#7c3aed',
+            secondary: '#a855f7',
+            accent: '#22d3ee',
           },
-          dropShadow: {
-            glow: ['0 0 25px rgba(168,85,247,.35)','0 0 50px rgba(34,211,238,.25)']
-          }
-        }
-      }
-    }
+        },
+      },
+    };
   </script>
+
   <style>
-    /* Suave degradado radial al fondo */
-    .bg-radial {
+    :root { --dark-bg: #221F43; }
+
+    /* === FONDOS === */
+    .bg-scene {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      transition: background 0.4s ease;
+    }
+
+    /* Fondo modo claro */
+    .bg-scene--light {
       background:
-        radial-gradient(1200px 600px at 75% -10%, rgba(168,85,247,.25), transparent 60%),
-        radial-gradient(900px 500px at 10% -20%, rgba(34,211,238,.18), transparent 55%),
-        radial-gradient(600px 400px at 50% 100%, rgba(168,85,247,.12), transparent 60%),
-        #0b0b10;
+        radial-gradient(1200px 600px at 80% -10%, rgba(168,85,247,0.08), transparent 60%),
+        radial-gradient(900px 500px at 10% -20%, rgba(34,211,238,0.08), transparent 55%),
+        #f6f7fb;
     }
-    /* Vidrio / glass */
-    .glass {
-      @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-[0_8px_40px_rgba(0,0,0,.35)];
+
+    .bg-scene--light::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+      background-size: 18px 18px;
+      opacity: 0.4;
+      pointer-events: none;
     }
-    .pill {
-      @apply rounded-full px-4 py-2 glass text-sm leading-none;
+
+    /* Fondo modo oscuro */
+    html.dark, html.dark body {
+      background-color: var(--dark-bg) !important;
     }
-    .chip {
-      @apply rounded-full px-3 py-1.5 text-sm bg-white/5 border border-white/10;
+    .dark .bg-scene {
+      background-color: var(--dark-bg) !important;
+      background-image: none !important;
     }
+    .dark .bg-scene::before,
+    .dark .bg-aurora,
+    .dark .aurora__layer {
+      display: none !important;
+    }
+
+    /* === COMPONENTES === */
+    .card-style {
+      background: #ffffff;
+      border-radius: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .dark .card-style {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    }
+
+    .chip-role {
+      background: #a855f7;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
     .btn-gradient {
-      background: linear-gradient(90deg, #a855f7, #22d3ee);
+      background: linear-gradient(90deg, #a855f7, #7c3aed);
+      color: #fff !important;
+      font-weight: 700;
+      transition: all 0.25s;
     }
-    .btn-gradient:hover { filter: brightness(1.05); }
+
+    .btn-gradient:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 10px 20px rgba(168, 85, 247, 0.3);
+    }
+
+    .grad-1 { background-image: linear-gradient(135deg, #a855f7, #6366f1); }
+    .grad-2 { background-image: linear-gradient(135deg, #ec4899, #fde047); }
+    .grad-3 { background-image: linear-gradient(135deg, #22d3ee, #06b6d4); }
+    .grad-4 { background-image: linear-gradient(135deg, #8b5cf6, #3b82f6); }
+
+    .work-title-pill {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 0.375rem 0.75rem;
+      border-radius: 9999px;
+      backdrop-filter: blur(6px);
+      color: #0b0b10;
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    }
+
+    .dark .work-title-pill {
+      color: #f5f5f5;
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 1);
+    }
+
+    /* Texto legible en oscuro */
+    html.dark body {
+      color: #F3F4F6;
+    }
+
   </style>
 </head>
 
-<body class="bg-radial text-ink">
-  <!-- NAV -->
-  <header class="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-black/40">
-    <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-      <a class="flex items-center gap-2 font-semibold tracking-tight" href="#">
-        <span class="h-3 w-3 rounded-sm bg-primary shadow-[0_0_12px_rgba(168,85,247,.9)]"></span>
-        <span>&lt;/&gt; David Valdez López</span>
+<body class="text-zinc-900 dark:text-slate-100 transition-colors duration-500 min-h-screen">
+  <!-- Fondo global -->
+  <div class="bg-scene bg-scene--light dark:bg-scene--dark"></div>
+
+  <!-- HEADER -->
+  <header class="py-6 absolute inset-x-0 top-0 z-50">
+    <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <a class="flex items-center gap-2 font-extrabold tracking-tight text-xl text-zinc-900 dark:text-white" href="#">
+        <i data-feather="code" class="w-6 h-6 text-primary"></i>
+        <span>David Valdez</span>
       </a>
 
-      <!-- Pastilla de navegación -->
-      <div class="hidden md:flex gap-2 glass rounded-full p-1">
-        <a href="#home" class="pill bg-white/10">Home</a>
-        <a href="#work" class="pill">Work</a>
-        <a href="#about" class="pill">About</a>
+      <div class="hidden md:flex gap-1 bg-white/70 dark:bg-white/10 backdrop-blur-md rounded-full p-1 text-sm font-semibold border border-black/10 dark:border-white/10">
+        <a href="#home" class="px-4 py-2 rounded-full text-white bg-primary dark:bg-secondary/90 hover:bg-secondary/80 transition-colors">Home</a>
+        <a href="#skills" class="px-4 py-2 rounded-full text-zinc-800 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors">Skills</a>
+        <a href="#work" class="px-4 py-2 rounded-full text-zinc-800 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors">Work</a>
+        <a href="#About" class="px-4 py-2 rounded-full text-zinc-800 dark:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors">About</a>
       </div>
 
-      <!-- Social (dummy) -->
-      <div class="hidden sm:flex items-center gap-3 text-white/70">
-        <a class="chip hover:bg-white/10" href="#contacto">✉️</a>
-        <a class="chip hover:bg-white/10" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
-        <a class="chip hover:bg-white/10" href="https://twitter.com/" target="_blank" rel="noreferrer">Twitter</a>
+      <div class="flex items-center gap-3 text-zinc-700 dark:text-white/80">
+        <a href="#" title="Twitter"><i data-feather="twitter" class="w-5 h-5 hover:text-primary transition-colors"></i></a>
+        <a href="#" title="GitHub"><i data-feather="github" class="w-5 h-5 hover:text-primary transition-colors"></i></a>
+        <a href="#" title="Codepen"><i data-feather="codepen" class="w-5 h-5 hover:text-primary transition-colors"></i></a>
+        <button id="theme-toggle" class="text-xl hover:text-primary" title="Cambiar tema">🌙</button>
       </div>
     </nav>
   </header>
 
-  <main id="home" class="relative overflow-hidden">
-    <!-- HERO -->
+  <main id="home" class="relative overflow-hidden pt-24">
     <section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-16 pb-24">
       <div class="grid lg:grid-cols-2 gap-12 items-center">
         <div>
-          <p class="inline-flex items-center gap-2 chip mb-6">
-            <span class="h-2 w-2 rounded-full bg-accent"></span> Disponible para proyectos
+          <p class="text-zinc-700 dark:text-white/80 text-4xl sm:text-5xl lg:text-7xl font-extrabold leading-tight -mb-2">
+            Hello, my name is
           </p>
-
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight drop-shadow-glow">
-            Hola, mi nombre es <br><span class="text-white">David Valdez López</span>
+          <h1 class="text-5xl sm:text-6xl lg:text-8xl font-extrabold leading-none text-zinc-900 dark:text-white">
+            David Valdez López
           </h1>
-
-          <p class="mt-6 text-white/70 text-lg max-w-xl">
-            Soy un <span class="text-white">Creative Developer</span> con base en México. Diseño y construyo
-            experiencias web modernas, accesibles y con intención.
+          <p class="mt-6 text-zinc-700 dark:text-white/70 text-lg max-w-xl">
+            Soy un <span class="font-semibold text-zinc-900 dark:text-white">Creative Developer</span> con base en México.
+            Diseño y construyo experiencias web modernas, accesibles y con intención.
           </p>
-
           <div class="mt-8 flex flex-wrap gap-3">
-            <span class="chip">💻 Developer</span>
-            <span class="chip">🎤 Speaker</span>
-            <span class="chip">✍️ Writer</span>
+            <span class="chip-role flex items-center gap-1"><i data-feather="code" class="w-4 h-4"></i> Developer</span>
+            <span class="chip-role flex items-center gap-1"><i data-feather="mic" class="w-4 h-4"></i> Speaker</span>
+            <span class="chip-role flex items-center gap-1"><i data-feather="edit" class="w-4 h-4"></i> Writer</span>
           </div>
-
           <div class="mt-10 flex items-center gap-4">
-            <a href="#work" class="btn-gradient text-black font-semibold rounded-full px-5 py-3 shadow-lg">
-              Ver trabajo seleccionado →
+            <a href="#work" class="btn-gradient font-semibold rounded-full px-5 py-3 shadow-lg flex items-center gap-2">
+              Ver trabajo seleccionado <i data-feather="arrow-right" class="w-4 h-4"></i>
             </a>
-            <a href="#contacto" class="chip">Envíame un mensaje</a>
           </div>
         </div>
 
-        <!-- Foto -->
         <div class="justify-self-center lg:justify-self-end">
-          <div class="relative rounded-[2rem] overflow-hidden glass p-2">
+          <div class="card-style dark:bg-zinc-800 rounded-[2rem] p-3 shadow-xl max-w-sm lg:max-w-none">
             <img
-              class="rounded-[1.6rem] object-cover w-[520px] h-[520px] max-w-full"
+              class="rounded-[1.6rem] object-cover w-full h-auto max-w-full"
               src="img/perfil.jpg"
               alt="Foto de David"
               onerror="this.src='https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=800&auto=format&fit=crop'"
@@ -125,149 +216,214 @@
           </div>
         </div>
       </div>
+    </section>
 
-      <!-- 3 bullets -->
-      <div class="mt-16 grid md:grid-cols-3 gap-6">
-        <div class="glass rounded-2xl p-6">
-          <div class="text-primary text-2xl mb-3">🧩</div>
-          <h3 class="text-xl font-bold mb-2">Full Stack</h3>
-          <p class="text-white/70">De la idea al despliegue: UI, APIs y base de datos con buenas prácticas.</p>
+    <!-- SKILLS -->
+    <section id="skills" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+      <div class="card-style p-8 rounded-3xl grid md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <i data-feather="monitor" class="w-8 h-8 mx-auto mb-3 text-secondary"></i>
+          <h3 class="font-bold text-xl text-zinc-900 dark:text-white mb-2">Full Stack</h3>
+          <p class="text-sm text-zinc-700 dark:text-white/70">Diseño a despliegue: UI, APIs y DB.</p>
         </div>
-        <div class="glass rounded-2xl p-6">
-          <div class="text-primary text-2xl mb-3">🏆</div>
-          <h3 class="text-xl font-bold mb-2">Industry-Minded</h3>
-          <p class="text-white/70">Experimentos medibles, performance y accesibilidad como requisitos.</p>
+        <div class="text-center">
+          <i data-feather="award" class="w-8 h-8 mx-auto mb-3 text-secondary"></i>
+          <h3 class="font-bold text-xl text-zinc-900 dark:text-white mb-2">Industry Leader</h3>
+          <p class="text-sm text-zinc-700 dark:text-white/70">Métricas, performance y accesibilidad.</p>
         </div>
-        <div class="glass rounded-2xl p-6">
-          <div class="text-primary text-2xl mb-3">🧠</div>
-          <h3 class="text-xl font-bold mb-2">Strategy-Minded</h3>
-          <p class="text-white/70">Diseño orientado a objetivos de negocio y contenido.</p>
+        <div class="text-center">
+          <i data-feather="target" class="w-8 h-8 mx-auto mb-3 text-secondary"></i>
+          <h3 class="font-bold text-xl text-zinc-900 dark:text-white mb-2">Strategy-Minded</h3>
+          <p class="text-sm text-zinc-700 dark:text-white/70">Diseño orientado a objetivos.</p>
         </div>
       </div>
     </section>
 
-    <!-- SELECTED WORK -->
-    <section id="work" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-      <div class="flex items-end justify-between">
+    <!-- WORK -->
+    <section id="skills" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24">
+      <h2 class="text-3xl sm:text-4xl font-extrabold mb-2 text-zinc-900 dark:text-white">Habilidades: </h2>
+      <p class="text-lg text-zinc-700 dark:text-white/70 mb-12">Lenguajes de programacion: </p>
+
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <!-- HTML -->
+    <div class="card-style p-6 text-center transition-transform hover:scale-[1.03]">
+      <i data-feather="code" class="w-8 h-8 mx-auto mb-3 text-primary"></i>
+      <h3 class="font-semibold text-lg text-zinc-900 dark:text-white">HTML</h3>
+      <p class="text-sm text-zinc-600 dark:text-white/70">Estructuración semántica y accesible de contenido web.</p>
+    </div>
+
+    <!-- Astro -->
+    <div class="card-style p-6 text-center transition-transform hover:scale-[1.03]">
+      <i data-feather="star" class="w-8 h-8 mx-auto mb-3 text-secondary"></i>
+      <h3 class="font-semibold text-lg text-zinc-900 dark:text-white">Astro</h3>
+      <p class="text-sm text-zinc-600 dark:text-white/70">Framework moderno para sitios estáticos ultrarrápidos.</p>
+    </div>
+
+    <!-- React -->
+    <div class="card-style p-6 text-center transition-transform hover:scale-[1.03]">
+      <i data-feather="cpu" class="w-8 h-8 mx-auto mb-3 text-primary"></i>
+      <h3 class="font-semibold text-lg text-zinc-900 dark:text-white">React</h3>
+      <p class="text-sm text-zinc-600 dark:text-white/70">Interfaces dinámicas con componentes reutilizables.</p>
+    </div>
+
+    <!-- Node.js -->
+    <div class="card-style p-6 text-center transition-transform hover:scale-[1.03]">
+      <i data-feather="server" class="w-8 h-8 mx-auto mb-3 text-secondary"></i>
+      <h3 class="font-semibold text-lg text-zinc-900 dark:text-white">Node.js</h3>
+      <p class="text-sm text-zinc-600 dark:text-white/70">Desarrollo backend y APIs REST con JavaScript.</p>
+    </div>
+
+    <!-- MySQL -->
+    <div class="card-style p-6 text-center transition-transform hover:scale-[1.03]">
+      <i data-feather="database" class="w-8 h-8 mx-auto mb-3 text-primary"></i>
+      <h3 class="font-semibold text-lg text-zinc-900 dark:text-white">MySQL</h3>
+      <p class="text-sm text-zinc-600 dark:text-white/70">Gestión de bases de datos relacionales estructuradas.</p>
+    </div>
+
+    <!-- PostgreSQL -->
+    <div class="card-style p-6 text-center transition-transform hover:scale-[1.03]">
+      <i data-feather="layers" class="w-8 h-8 mx-auto mb-3 text-secondary"></i>
+      <h3 class="font-semibold text-lg text-zinc-900 dark:text-white">PostgreSQL</h3>
+      <p class="text-sm text-zinc-600 dark:text-white/70">Base de datos avanzada con soporte para JSON y escalabilidad.</p>
+    </div>
+
+    <!-- PHP -->
+    <div class="card-style p-6 text-center transition-transform hover:scale-[1.03]">
+      <i data-feather="file-code" class="w-8 h-8 mx-auto mb-3 text-primary"></i>
+      <h3 class="font-semibold text-lg text-zinc-900 dark:text-white">PHP</h3>
+      <p class="text-sm text-zinc-600 dark:text-white/70">Desarrollo de sistemas dinámicos con conexión a bases de datos.</p>
+    </div>
+
+    <!-- Bootstrap -->
+    <div class="card-style p-6 text-center transition-transform hover:scale-[1.03]">
+      <i data-feather="grid" class="w-8 h-8 mx-auto mb-3 text-secondary"></i>
+      <h3 class="font-semibold text-lg text-zinc-900 dark:text-white">Bootstrap</h3>
+      <p class="text-sm text-zinc-600 dark:text-white/70">Framework CSS para diseño responsive rápido y eficiente.</p>
+    </div>
+
+    <!-- JavaScript -->
+    <div class="card-style p-6 text-center transition-transform hover:scale-[1.03]">
+      <i data-feather="activity" class="w-8 h-8 mx-auto mb-3 text-primary"></i>
+      <h3 class="font-semibold text-lg text-zinc-900 dark:text-white">JavaScript</h3>
+      <p class="text-sm text-zinc-600 dark:text-white/70">Lenguaje principal para lógica e interacción web.</p>
+    </div>
+
+    <!-- Java -->
+    <div class="card-style p-6 text-center transition-transform hover:scale-[1.03]">
+      <i data-feather="coffee" class="w-8 h-8 mx-auto mb-3 text-secondary"></i>
+      <h3 class="font-semibold text-lg text-zinc-900 dark:text-white">Java</h3>
+      <p class="text-sm text-zinc-600 dark:text-white/70">Desarrollo multiplataforma con orientación a objetos.</p>
+    </div>
+
+    <!-- Python -->
+    <div class="card-style p-6 text-center transition-transform hover:scale-[1.03]">
+      <i data-feather="terminal" class="w-8 h-8 mx-auto mb-3 text-primary"></i>
+      <h3 class="font-semibold text-lg text-zinc-900 dark:text-white">Python</h3>
+      <p class="text-sm text-zinc-600 dark:text-white/70">Automatización, análisis de datos y desarrollo web.</p>
+    </div>
+  </div>
+    </section>
+
+      <section id="work" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24">
+      <h2 class="text-3xl sm:text-4xl font-extrabold mb-2 text-zinc-900 dark:text-white">Proyectos Destacados</h2>
+      <p class="text-lg text-zinc-700 dark:text-white/70 mb-12">Explora algunos de mis proyectos recientes:</p>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <article class="group card-style p-3 transition-transform hover:scale-[1.02]">
+          <div class="relative h-60 w-full rounded-2xl overflow-hidden mb-4 shadow-inner">
+            <img src="img/BeelGo.png" alt="BeelGo">
+          </div>
+          <h3 class="font-bold text-lg text-zinc-900 dark:text-white">BeelGo</h3>
+          <p class="text-sm text-zinc-600 dark:text-white/70">Buscador web minimalista hecho con HTML, CSS y JavaScript.</p>
+        </article>
+
+        <article class="group card-style p-3 transition-transform hover:scale-[1.02]">
+          <div class="relative h-60 w-full rounded-2xl overflow-hidden mb-4 shadow-inner">
+            <img src="img/BeelPedia.png" alt="BeelPedia">
+          </div>
+          <h3 class="font-bold text-lg text-zinc-900 dark:text-white">BeelPedia</h3>
+          <p class="text-sm text-zinc-600 dark:text-white/70">Enciclopedia tipo wiki enfocada en diseño responsive.</p>
+        </article>
+
+        <article class="group card-style p-3 transition-transform hover:scale-[1.02]">
+          <div class="relative h-60 w-full rounded-2xl overflow-hidden mb-4 shadow-inner">
+            <img src="img/SportAcademy.png" alt="SportAcademy">
+          </div>
+          <h3 class="font-bold text-lg text-zinc-900 dark:text-white">SportAcademy</h3>
+          <p class="text-sm text-zinc-600 dark:text-white/70">Sistema web para academias deportivas con formularios y BD.</p>
+        </article>
+
+          <article class="group card-style p-3 transition-transform hover:scale-[1.02]">
+          <div class="relative h-60 w-full rounded-2xl overflow-hidden mb-4 shadow-inner">
+            <img src="img/ISC.png" alt="SportAcademy">
+          </div>
+          <h3 class="font-bold text-lg text-zinc-900 dark:text-white">Control de Inventario</h3>
+          <p class="text-sm text-zinc-600 dark:text-white/70">Sistema web para el control de inventario de articulos.</p>
+        </article>
+
+          <article class="group card-style p-3 transition-transform hover:scale-[1.02]">
+          <div class="relative h-60 w-full rounded-2xl overflow-hidden mb-4 shadow-inner">
+            <img src="img/Marketplace.png" alt="SportAcademy">
+          </div>
+          <h3 class="font-bold text-lg text-zinc-900 dark:text-white">Marketplace</h3>
+          <p class="text-sm text-zinc-600 dark:text-white/70">modelo E-comers para productos artesanales/p>
+        </article>
+
+          <article class="group card-style p-3 transition-transform hover:scale-[1.02]">
+          <div class="relative h-60 w-full rounded-2xl overflow-hidden mb-4 shadow-inner">
+            <img src="img/Reproductor.png" alt="SportAcademy">
+          </div>
+          <h3 class="font-bold text-lg text-zinc-900 dark:text-white">Reproductor de Musica</h3>
+          <p class="text-sm text-zinc-600 dark:text-white/70">Bibliteca de reproduccion de musica.</p>
+        </article>
+      </div>
+    </section>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="About" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+      <div class="card-style rounded-3xl p-8 sm:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
         <div>
-          <h2 class="text-4xl font-extrabold">Selected Work</h2>
-          <p class="text-white/60 mt-2 max-w-2xl">Algunos proyectos destacados de los últimos años.</p>
+          <h3 class="text-3xl font-extrabold text-zinc-900 dark:text-white">¿Interesado en trabajar juntos?</h3>
+          <p class="text-zinc-700 dark:text-white/70 mt-2">Hablemos de tu idea y cómo llevarla a producción.</p>
         </div>
-        <a href="#work" class="hidden md:inline-flex items-center gap-2 btn-gradient rounded-full px-5 py-3 font-semibold text-black shadow-lg">
-          Ver todo <span>→</span>
-        </a>
-      </div>
-
-      <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Card -->
-        <article class="group glass rounded-2xl overflow-hidden">
-          <div class="h-44 bg-gradient-to-tr from-primary/40 to-accent/40">
-            <img src="img/BeelGo.png" alt="BeelGo" class="h-full w-full object-cover mix-blend-screen" />
-          </div>
-          <div class="p-5">
-            <h3 class="font-semibold text-lg">BeelGo (Buscador Web)</h3>
-            <p class="text-white/70 mt-2">Clon de motor de búsqueda para prácticas. HTML, CSS y JS.</p>
-            <a href="#" class="mt-4 inline-block chip group-hover:bg-white/10">Ver Proyecto</a>
-          </div>
-        </article>
-
-        <article class="group glass rounded-2xl overflow-hidden">
-          <div class="h-44 bg-gradient-to-tr from-primary/40 to-accent/40">
-            <img src="img/BeelPedia.png" alt="BeelPedia" class="h-full w-full object-cover mix-blend-screen" />
-          </div>
-          <div class="p-5">
-            <h3 class="font-semibold text-lg">BeelPedia (Enciclopedia)</h3>
-            <p class="text-white/70 mt-2">Plataforma tipo wiki con diseño responsivo.</p>
-            <a href="#" class="mt-4 inline-block chip">Ver Proyecto</a>
-          </div>
-        </article>
-
-        <article class="group glass rounded-2xl overflow-hidden">
-          <div class="h-44 bg-gradient-to-tr from-primary/40 to-accent/40">
-            <img src="img/ISC.png" alt="ISC Landing" class="h-full w-full object-cover mix-blend-screen" />
-          </div>
-          <div class="p-5">
-            <h3 class="font-semibold text-lg">ISC (Landing Page)</h3>
-            <p class="text-white/70 mt-2">Página de inicio enfocada en conversión.</p>
-            <a href="#" class="mt-4 inline-block chip">Ver Proyecto</a>
-          </div>
-        </article>
-
-        <article class="group glass rounded-2xl overflow-hidden">
-          <div class="h-44 bg-gradient-to-tr from-primary/40 to-accent/40">
-            <img src="img/Marketplace.png" alt="Marketplace" class="h-full w-full object-cover mix-blend-screen" />
-          </div>
-          <div class="p-5">
-            <h3 class="font-semibold text-lg">Marketplace (E-commerce)</h3>
-            <p class="text-white/70 mt-2">Carrito, filtros y diseño responsive.</p>
-            <a href="#" class="mt-4 inline-block chip">Ver Proyecto</a>
-          </div>
-        </article>
-
-        <article class="group glass rounded-2xl overflow-hidden">
-          <div class="h-44 bg-gradient-to-tr from-primary/40 to-accent/40">
-            <img src="img/Reproductor.png" alt="Reproductor" class="h-full w-full object-cover mix-blend-screen" />
-          </div>
-          <div class="p-5">
-            <h3 class="font-semibold text-lg">Reproductor de Música</h3>
-            <p class="text-white/70 mt-2">UI moderna con controles personalizados.</p>
-            <a href="#" class="mt-4 inline-block chip">Ver Proyecto</a>
-          </div>
-        </article>
-
-        <article class="group glass rounded-2xl overflow-hidden">
-          <div class="h-44 bg-gradient-to-tr from-primary/40 to-accent/40">
-            <img src="img/SportAcademy.png" alt="SportAcademy" class="h-full w-full object-cover mix-blend-screen" />
-          </div>
-          <div class="p-5">
-            <h3 class="font-semibold text-lg">SportAcademy (Plataforma)</h3>
-            <p class="text-white/70 mt-2">Sistema web para academias deportivas.</p>
-            <a href="#" class="mt-4 inline-block chip">Ver Proyecto</a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- MENTIONS -->
-    <section id="about" class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-20">
-      <h2 class="text-center text-4xl font-extrabold">Mentions</h2>
-      <p class="text-center text-white/60 mt-3 max-w-2xl mx-auto">
-        He tenido la fortuna de recibir menciones por mi trabajo en distintas publicaciones.
-      </p>
-
-      <div class="mt-10 grid sm:grid-cols-3 gap-5 place-items-center">
-        <div class="w-full glass rounded-2xl px-8 py-6 text-center">Medium</div>
-        <div class="w-full glass rounded-2xl px-8 py-6 text-center">BuzzFeed</div>
-        <div class="w-full glass rounded-2xl px-8 py-6 text-center">The Next Web</div>
-        <div class="w-full glass rounded-2xl px-8 py-6 text-center sm:col-start-2">awwwards.</div>
-        <div class="w-full glass rounded-2xl px-8 py-6 text-center">TechCrunch</div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section id="contacto" class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-      <div class="glass rounded-3xl p-8 sm:p-12 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-        <div>
-          <h3 class="text-3xl font-extrabold">¿Interesado en trabajar juntos?</h3>
-          <p class="text-white/70 mt-2">Hablemos de tu idea y cómo llevarla a producción.</p>
-        </div>
-        <a href="mailto:tu.correo@ejemplo.com" class="btn-gradient rounded-full px-6 py-3 font-semibold text-black shadow-lg">
-          Envíame un mensaje ✈️
+        <a href="mailto:tu.correo@ejemplo.com" class="btn-gradient rounded-full px-6 py-3 shadow-lg flex items-center gap-2">
+          Envíame un mensaje <i data-feather="send" class="w-4 h-4"></i>
         </a>
       </div>
     </section>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="border-t border-white/10 py-8 text-sm text-white/60">
+  <footer class="border-t border-black/10 dark:border-white/10 py-8 text-sm text-zinc-700 dark:text-white/70">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p>Diseñado & Desarrollado con Tailwind • © 2025 David Valdez López</p>
-      <div class="flex items-center gap-5">
-        <a class="hover:text-white" href="https://twitter.com/" target="_blank" rel="noreferrer">Twitter</a>
-        <a class="hover:text-white" href="https://github.com/" target="_blank" rel="noreferrer">GitHub</a>
-        <a class="hover:text-white" href="https://codepen.io/" target="_blank" rel="noreferrer">CodePen</a>
+      <p>Designed & Developed with Tailwind • © 2025 David Valdez López</p>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-primary transition-colors">Twitter</a>
+        <a href="#" class="hover:text-primary transition-colors">GitHub</a>
+        <a href="#" class="hover:text-primary transition-colors">Codepen</a>
       </div>
     </div>
   </footer>
+
+  <script>
+    feather.replace();
+    const html = document.documentElement;
+    const toggleBtn = document.getElementById('theme-toggle');
+
+    function applyTheme(isDark) {
+      if (isDark) {
+        html.classList.add('dark');
+        toggleBtn.innerHTML = '<i data-feather="sun" class="w-5 h-5"></i>';
+      } else {
+        html.classList.remove('dark');
+        toggleBtn.innerHTML = '<i data-feather="moon" class="w-5 h-5"></i>';
+      }
+      feather.replace();
+      localStorage.theme = isDark ? 'dark' : 'light';
+    }
+
+    applyTheme(html.classList.contains('dark'));
+    toggleBtn.addEventListener('click', () => applyTheme(!html.classList.contains('dark')));
+  </script>
 </body>
 </html>
